@@ -43,7 +43,7 @@ public class LandingPage {
     @FindBy(xpath="//div[text()='Travellers | Class']/following-sibling::input[@placeholder]")
     private WebElement travellerOrClassInput;
 
-    @FindBy(css="div.search")
+    @FindBy(css="div.search button")
     private WebElement searchBtn;
 
    /* @FindBy(xpath="//div[text()='To']/following-sibling::input[@placeholder]")
@@ -59,22 +59,37 @@ public class LandingPage {
     }
 //PNQ - Pune
     public void enterFromCity(String fromCity){
-    WebDriverWait wait=new WebDriverWait(driver, 5);
-        WebElement fromCityElement = wait.until(ExpectedConditions.visibilityOf(fromCityInput));
+    /*WebDriverWait wait=new WebDriverWait(driver, 5);
+        WebElement fromCityElement = wait.until(ExpectedConditions.visibilityOf(fromCityInput));*/
 
         if(ElementUtils.isPresent(driver,fromCityInputClearBtn))
             fromCityInputClearBtn.click();
 
-        fromCityElement.click();
-        fromCityElement.sendKeys(fromCity);
+        fromCityInput.click();
+       // fromCityInput.clear();
+        fromCityInput.sendKeys(fromCity);
+        String fromXpath=String.format("//div[./div[text()='From']]/following-sibling::div//div[contains(text(),'%s')]",fromCity);
+        WebDriverWait wait=new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(fromXpath))).click();
+
     }
 
     public void enterToCity(String toCity){
-        WebDriverWait wait=new WebDriverWait(driver, 5);
-        wait.until(ExpectedConditions.visibilityOf(toCityInput));
-
+      //  WebDriverWait wait=new WebDriverWait(driver, 5);
+       // wait.until(ExpectedConditions.visibilityOf(toCityInput));
+        toCityInput.click();
         toCityInput.sendKeys(toCity);
+
+        String toXpath=String.format("//div[./div[text()='To']]/following-sibling::div//div[contains(text(),'%s')]",toCity);
+        WebDriverWait wait=new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(toXpath))).click();
     }
+
+    /*public void selectFromSuggestion(String city){
+         WebDriverWait wait=new WebDriverWait(driver, 5);
+         String xpath="";
+       wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath()));
+    }*/
 
     public boolean selectDepartureDate(String dateInDDMMYYYY) {
         departDateInput.click();
@@ -103,12 +118,15 @@ public class LandingPage {
     }
 
     public boolean selectTraveller(String category, String number){
-        WebDriverWait wait=new WebDriverWait(driver, 3);
+        travellerOrClassInput.click();
+        WebDriverWait wait=new WebDriverWait(driver, 10);
         String xpathRetDate = String.format("//div[@class='number-counter'][.//div[text()='%s']]//span[@data-val='%s']", category,number);
         boolean enabled = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpathRetDate))).isEnabled();
         if(enabled) {
             driver.findElement(By.xpath(xpathRetDate)).click();
+            travellerOrClassInput.click();
             return true;
+
         }
         else return false;
     }

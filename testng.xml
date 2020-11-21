@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"  name="Ixigo Flight booking ">
+        <parameter name="fromCity" value="PNQ - Pune"/>
+        <parameter name="toCity" value="HYD - Hyderabad"/>
+        <parameter name="fromDate" value="23112020"/>
+        <parameter name="toDate" value="27112020"/>
+        <parameter name="Passenger" value="Adult"/>
+        <parameter name="passengerCount" value="2"/>
+        <classes>
+            <class name="stepDefs.ixigo.BookFlight">
+            </class>
+        </classes>
+    </test>
+</suite>

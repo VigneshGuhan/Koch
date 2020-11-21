@@ -58,6 +58,7 @@ public class Driver {
         try {
             fis=new FileInputStream(filePath);
             prop.load(fis);
+            System.out.println("File loaded...");
         } catch (FileNotFoundException e) {
 
             e.printStackTrace();
